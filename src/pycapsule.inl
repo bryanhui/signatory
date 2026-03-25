@@ -24,13 +24,18 @@ namespace signatory { namespace misc {
 
     template <typename T, typename ...Args>
     inline py::object wrap_capsule(Args&&... args) {
-        return py::reinterpret_steal<py::object>(PyCapsule_New(new T{std::forward<Args>(args)...},
-                                                               T::capsule_name,
-                                                               detail::CapsuleDestructor<T>));
+        T* obj = new T{std::forward<Args>(args)...};
+        PyObject* capsule = PyCapsule_New(obj, T::capsule_name, detail::CapsuleDestructor<T>);
+        if (!capsule) {
+            delete obj;
+            throw std::runtime_error("Failed to create capsule");
+        }
+        return py::reinterpret_steal<py::object>(capsule);
     }
 
     template <typename T>
     inline T* unwrap_capsule(py::object capsule) {
-        return static_cast<T*>(PyCapsule_GetPointer(capsule.ptr(), T::capsule_name));
+        T* ptr = static_cast<T*>(PyCapsule_GetPointer(capsule.ptr(), T::capsule_name));
+        return ptr;
     }
 }  /* namespace signatory::misc */ }  // namespace signatory

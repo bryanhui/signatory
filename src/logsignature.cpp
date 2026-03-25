@@ -16,7 +16,6 @@
 
 #include <torch/extension.h>
 #include <cstdint>    // int64_t
-#include <memory>     // std::unique_ptr
 #include <omp.h>
 #include <stdexcept>  // std::invalid_argument
 #include <tuple>      // std::tie, std::tuple
@@ -38,16 +37,47 @@ namespace signatory {
             // logsignature transformation just once, so that repeated use of the logsignature transformation is more
             // efficient.
             struct LyndonInfo {
-                LyndonInfo(std::unique_ptr<lyndon::LyndonWords> lyndon_words,
+                // Use raw pointer with explicit ownership to avoid C++ ABI issues
+                // with std::unique_ptr between different compiler versions
+                LyndonInfo(lyndon::LyndonWords* lyndon_words_ptr,
                            std::vector<std::vector<std::tuple<int64_t, int64_t, int64_t>>>&& transforms,
                 std::vector<std::vector<std::tuple<int64_t, int64_t, int64_t>>>&& transforms_backward) :
-                lyndon_words{std::move(lyndon_words)},
-                transforms{transforms},
-                transforms_backward{transforms_backward}
-                {};
+                lyndon_words(lyndon_words_ptr),
+                transforms(std::move(transforms)),
+                transforms_backward(std::move(transforms_backward))
+                {
+                };
 
-                // A list of Lyndon words
-                std::unique_ptr<lyndon::LyndonWords> lyndon_words;
+                // Destructor to clean up the raw pointer
+                ~LyndonInfo() {
+                    delete lyndon_words;
+                }
+
+                // Disable copy to prevent double-free
+                LyndonInfo(const LyndonInfo&) = delete;
+                LyndonInfo& operator=(const LyndonInfo&) = delete;
+
+                // Enable move semantics
+                LyndonInfo(LyndonInfo&& other) noexcept :
+                    lyndon_words(other.lyndon_words),
+                    transforms(std::move(other.transforms)),
+                    transforms_backward(std::move(other.transforms_backward)) {
+                    other.lyndon_words = nullptr;
+                }
+
+                LyndonInfo& operator=(LyndonInfo&& other) noexcept {
+                    if (this != &other) {
+                        delete lyndon_words;
+                        lyndon_words = other.lyndon_words;
+                        transforms = std::move(other.transforms);
+                        transforms_backward = std::move(other.transforms_backward);
+                        other.lyndon_words = nullptr;
+                    }
+                    return *this;
+                }
+
+                // A list of Lyndon words - raw pointer with manual memory management
+                lyndon::LyndonWords* lyndon_words;
 
                 // The transforms for going from Lyndon words to Lyndon basis
                 // This is in terms of the 'compressed' index, i.e. in the free Lie algebra
@@ -59,7 +89,7 @@ namespace signatory {
                 // They are grouped (the outermost vector) by anagram class
                 std::vector<std::vector<std::tuple<int64_t, int64_t, int64_t>>> transforms_backward;
 
-                constexpr static auto capsule_name = "signatory.LyndonInfoCapsule";
+                static constexpr const char* capsule_name = "signatory.LyndonInfoCapsule";
             };
 
             // Compresses a representation of a member of the free Lie algebra.
@@ -149,27 +179,31 @@ namespace signatory {
     }  // namespace signatory::logsignature
 
     py::object make_lyndon_info(int64_t channels, s_size_type depth, LogSignatureMode mode) {
+        
         misc::checkargs_channels_depth(channels, depth);
 
-        py::gil_scoped_release release;
-
-        std::unique_ptr<lyndon::LyndonWords> lyndon_words;
+        lyndon::LyndonWords* lyndon_words = nullptr;
         std::vector<std::vector<std::tuple<int64_t, int64_t, int64_t>>> transforms;
         std::vector<std::vector<std::tuple<int64_t, int64_t, int64_t>>> transforms_backward;
+        
+        {
+            py::gil_scoped_release release;
 
-        // no make_unique in C++11
-        if (mode == LogSignatureMode::Words) {
-            lyndon_words.reset(new lyndon::LyndonWords(channels, depth, lyndon::LyndonWords::word_tag));
-        }
-        else if (mode == LogSignatureMode::Brackets) {
-            lyndon_words.reset(new lyndon::LyndonWords(channels, depth, lyndon::LyndonWords::bracket_tag));
-            lyndon_words->to_lyndon_basis(transforms, transforms_backward);
-            lyndon_words->delete_extra();
-        }
-
-        return misc::wrap_capsule<logsignature::detail::LyndonInfo>(std::move(lyndon_words),
+            if (mode == LogSignatureMode::Words) {
+                lyndon_words = new lyndon::LyndonWords(channels, depth, lyndon::LyndonWords::word_tag);
+            }
+            else if (mode == LogSignatureMode::Brackets) {
+                lyndon_words = new lyndon::LyndonWords(channels, depth, lyndon::LyndonWords::bracket_tag);
+                lyndon_words->to_lyndon_basis(transforms, transforms_backward);
+                lyndon_words->delete_extra();
+            }
+            
+        } // GIL reacquired here when release goes out of scope
+        
+        py::object result = misc::wrap_capsule<logsignature::detail::LyndonInfo>(lyndon_words,
                                                                     std::move(transforms),
                                                                     std::move(transforms_backward));
+        return result;
     }
 
     std::tuple<torch::Tensor, py::object>

@@ -272,7 +272,8 @@ namespace signatory {
         void LyndonWords::delete_extra() {
             for (auto& depth_class : (*this)) {
                 for (auto& lyndon_word : depth_class) {
-                    lyndon_word.extra.reset();
+                    delete lyndon_word.extra;
+                    lyndon_word.extra = nullptr;
                 }
             }
         }
@@ -351,8 +352,7 @@ namespace signatory {
             // generated.
 
             if (extra_) {
-                // no make_unique in C++11
-                extra.reset(new LyndonWord::ExtraLyndonInformation(word, first_child, second_child));
+                extra = new LyndonWord::ExtraLyndonInformation(word, first_child, second_child);
             }
         }
     }

@@ -25,23 +25,23 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04]
-        python-version: [3.9.12]
-        pytorch-version: [1.11.0]
+        os: [ubuntu-22.04]
+        python-version: [3.12.0]
+        pytorch-version: [2.2.0]
     
     steps:
     - name: Checkout code
-      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *'))))
+      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *'))))
       uses: actions/checkout@v1
 
     - name: Install Python
-      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *'))))
+      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *'))))
       uses: actions/setup-python@v1
       with:
-        python-version: '3.7'
+        python-version: '3.12'
 
     - name: Check version
-      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *'))))
+      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *'))))
       run: |
         python -c "import itertools as it
         import re
@@ -70,23 +70,23 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04]
-        python-version: [3.9.12]
-        pytorch-version: [1.11.0]
+        os: [ubuntu-22.04]
+        python-version: [3.12.0]
+        pytorch-version: [2.2.0]
     
     steps:
     - name: Checkout code
-      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *'))))
+      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *'))))
       uses: actions/checkout@v1
 
     - name: Install Python
-      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *'))))
+      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *'))))
       uses: actions/setup-python@v1
       with:
-        python-version: '3.7'
+        python-version: '3.12'
 
     - name: Compare READMEs
-      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *'))))
+      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *'))))
       run: |
         cp README.rst README.rst.old
         python command.py readme
@@ -101,23 +101,23 @@ jobs:
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:
-          os: [ubuntu-18.04]
-          python-version: [3.9.12]
-          pytorch-version: [1.11.0]
+          os: [ubuntu-22.04]
+          python-version: [3.12.0]
+          pytorch-version: [2.2.0]
       
       steps:
       - name: Checkout code
-        if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *'))))
+        if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *'))))
         uses: actions/checkout@v1
 
       - name: Install Python
-        if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *'))))
+        if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *'))))
         uses: actions/setup-python@v1
         with:
-          python-version: '3.7'
+          python-version: '3.12'
 
       - name: Compare Workflows
-        if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *'))))
+        if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *'))))
         run: |
           cp .github/workflows/build.yml .github/workflows/build.yml.old
           cp .github/workflows/deploy.yml .github/workflows/deploy.yml.old
@@ -142,24 +142,24 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2016, ubuntu-18.04]
-        python-version: [3.7.0, 3.8.2, 3.9.12]
-        pytorch-version: [1.10.0, 1.10.1, 1.11.0]
+        os: [windows-2022, ubuntu-22.04]
+        python-version: [3.12.0]
+        pytorch-version: [2.1.0, 2.1.1, 2.2.0]
       fail-fast: false
     needs: [check_version, check_readme, check_workflows]
     steps:
     - name: Checkout code
-      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *'))))
+      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *'))))
       uses: actions/checkout@v1
       
     - name: Install Python
-      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *'))))
+      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *'))))
       uses: actions/setup-python@v1
       with:
-        python-version: '3.7'
+        python-version: '3.12'
 
     - name: Windows
-      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *')))) && (matrix.os == 'windows-2016')
+      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *')))) && (matrix.os == 'windows-2022')
       env:
         PYTHON_VERSION: ${{ matrix.python-version }}
       shell: cmd
@@ -167,7 +167,7 @@ jobs:
       # It also means that if any command fails then the step as a whole should correctly
       # have a nonzero (fail) return code
       run: >
-        "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Auxiliary/Build/vcvars64.bat" &&
+        "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat" &&
         SET DISTUTILS_USE_SDK=1 &&
         %CONDA%/Scripts/conda create -n myenv python=%PYTHON_VERSION% -y &&
         %CONDA%/Scripts/activate myenv &&
@@ -190,7 +190,7 @@ jobs:
         echo done
 
     - name: Linux
-      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2016') && matrix.os == 'windows-2016') || (contains(github.event.action, '-os ubuntu-18.04') && matrix.os == 'ubuntu-18.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.7.0') && matrix.python-version == '3.7.0') || (contains(github.event.action, '-pv 3.8.2') && matrix.python-version == '3.8.2') || (contains(github.event.action, '-pv 3.9.12') && matrix.python-version == '3.9.12')  || contains(github.event.action, '-pv *')))) && (matrix.os == 'ubuntu-18.04')
+      if: ((github.event_name == 'pull_request' && (true)) || (github.event_name == 'repository_dispatch' && contains(github.event.action, '-trigger -not-available- ') && ((contains(github.event.action, '-os windows-2022') && matrix.os == 'windows-2022') || (contains(github.event.action, '-os ubuntu-22.04') && matrix.os == 'ubuntu-22.04') || contains(github.event.action, '-os *')) && ((contains(github.event.action, '-pv 3.12.0') && matrix.python-version == '3.12.0') || contains(github.event.action, '-pv *')))) && (matrix.os == 'ubuntu-22.04')
       env:
         PYTHON_VERSION: ${{ matrix.python-version }}
       # Deliberately only creating an sdist; see FAQ

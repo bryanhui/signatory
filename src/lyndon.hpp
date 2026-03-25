@@ -20,7 +20,6 @@
 
 #include <cstdint>    // int64_t
 
-
 namespace signatory {
     namespace lyndon {
         struct LyndonWord;
@@ -124,7 +123,7 @@ namespace signatory {
             // The index of this element in the sequence of all words (not necessarily Lyndon).
             int64_t tensor_algebra_index {0};
 
-            std::unique_ptr<ExtraLyndonInformation> extra {nullptr};
+            ExtraLyndonInformation* extra = nullptr;
 
             friend struct LyndonWords;
         private:
